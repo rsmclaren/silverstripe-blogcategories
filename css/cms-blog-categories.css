@@ -1,0 +1,8 @@
+div#Form_EditForm_ExistingCategories ul {
+	overflow: auto;
+}
+
+div#Form_EditForm_ExistingCategories ul li {
+	float: left;
+	margin: 10px;
+}
