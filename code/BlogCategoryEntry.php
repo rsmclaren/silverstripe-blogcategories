@@ -28,7 +28,7 @@ class BlogCategoryEntry extends DataExtension {
             }
             $categoryList .="</ul>";
         }else {
-            $categoryList .="<ul><li>No categories have been added. Add categories from the parent blog holder.</li></ul>";            
+            $categoryList="<ul><li>No categories have been added. Add categories from the parent blog holder.</li></ul>";            
         }
 
         //categories tab
