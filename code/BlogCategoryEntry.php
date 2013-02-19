@@ -51,16 +51,24 @@ class BlogCategoryEntry extends DataExtension {
     * @return {DataObjectSet}
     */
    public function getAllBlogCategories(){
-       return $this->owner->Parent()->BlogCategories();
+        if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+            return $this->owner->Parent()->BlogCategories();     
+        } else {
+            return BlogCategory::get(); 
+        }
+       
    }
 
    /**
     * @return BlogCategoryCloud
     */
    public function getBlogCategoryCloud() {
-     return BlogCategoryCloud::create()
-        ->setHolderId($this->owner->ParentID)
-        ->setLimit(10);
+     $cloud = BlogCategoryCloud::create()->setLimit(10);
+     if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+        $cloud->setHolderId($this->owner->ParentID);
+     }
+     
+     return $cloud;
    }
     
 }

@@ -17,7 +17,7 @@ class BlogCategory extends DataObject {
                         );
     
     public static $has_one=array(
-                                    'Parent'=>'BlogHolder'
+                                    'Parent'=>'BlogHolder', // Only used with $limit_to_holder=TRUE
                                 );
     
     public static $belongs_many_many=array(
@@ -28,6 +28,12 @@ class BlogCategory extends DataObject {
                                         'Title'=>'Title'                                        
                                     );
     
+    /**
+     * @var boolean Limit categories to a certain blog holder.
+     * Set to FALSE for "global" categories.
+     */
+    public static $limit_to_holder = true;
+
     /**
      * fields used the in the CMS
      * @see DataObject::getCMSFields()
@@ -73,11 +79,14 @@ class BlogCategory extends DataObject {
     
     //Test whether the URLSegment exists already on another Product
     public function LookForExistingURLSegment($URLSegment){
-        if(DataList::create('BlogCategory')->where("URLSegment = '" . $URLSegment ."' AND ID != " . $this->ID)->count() >= 1){
-            return true;
-        } else {
-            return false;
+        $filters = array('URLSegment' => $URLSegment);
+        if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+            $filters['ParentID'] = $this->ParentID;
         }
+        $existing = BlogCategory::get()->filter($filters); 
+        if($this->ID) $existing = $existing->exclude("ID", $this->ID);
+
+        return $existing->count();
     }
     
     /**
