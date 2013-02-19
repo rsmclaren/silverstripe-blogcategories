@@ -73,11 +73,9 @@ class BlogCategory extends DataObject {
     
     //Test whether the URLSegment exists already on another Product
     public function LookForExistingURLSegment($URLSegment){
-        if(DataList::create('BlogCategory')->where("URLSegment = '" . $URLSegment ."' AND ID != " . $this->ID)->count() >= 1){
-            return true;
-        } else {
-            return false;
-        }
+        $existing = BlogCategory::get()->filter("URLSegment",$URLSegment); 
+        if($this->ID) $existing = $existing->exclude("ID", $this->ID);
+        return $existing->count();
     }
     
     /**
