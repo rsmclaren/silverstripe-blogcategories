@@ -26,7 +26,8 @@ class BlogCategoryHolder extends DataExtension{
 class BlogCategoryHolderExtension_Controller extends DataExtension {
     
     public static $allowed_actions=array(
-        'category'
+        'category',
+        'categoryindex',
     );
     
     /**
@@ -76,6 +77,28 @@ class BlogCategoryHolderExtension_Controller extends DataExtension {
 			
         }
     }
+
+    public function categoryindex(SS_HTTPRequest $request) {
+        return $this->owner->renderWith(array('BlogHolder_categoryindex', 'Page'));
+    }
+
+    /**
+    * @param Int $limit
+    * @return BlogCategoryCloud
+    */
+   public function getBlogCategoryCloud($limit = 10) {
+     $cloud = BlogCategoryCloud::create();
+     if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+        $cloud->setHolderId($this->owner->ParentID);
+     }
+     if($limit) $cloud->setLimit($limit);
+     
+     return $cloud;
+   }
+
+   public function getBlogCategoriesMoreLink() {
+    return $this->owner->Link('categoryindex');
+   }
 }
 
 ?>

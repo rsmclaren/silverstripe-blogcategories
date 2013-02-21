@@ -45,7 +45,7 @@ class BlogCategoryEntry extends DataExtension {
                 )->setHeadingLevel(4)
         );
     } 
-   
+
    /**
     * returns a DataObjectSet of all the BlogCategories
     * @return {DataObjectSet}
@@ -60,15 +60,21 @@ class BlogCategoryEntry extends DataExtension {
    }
 
    /**
+    * @param Int $limit
     * @return BlogCategoryCloud
     */
-   public function getBlogCategoryCloud() {
-     $cloud = BlogCategoryCloud::create()->setLimit(10);
+   public function getBlogCategoryCloud($limit = 10) {
+     $cloud = BlogCategoryCloud::create();
      if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
         $cloud->setHolderId($this->owner->ParentID);
      }
+     if($limit) $cloud->setLimit($limit);
      
      return $cloud;
+   }
+
+   public function getBlogCategoriesMoreLink() {
+    return $this->owner->Parent()->Link('categoryindex');
    }
     
 }
