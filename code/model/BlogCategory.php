@@ -28,6 +28,8 @@ class BlogCategory extends DataObject {
                                         'Title'=>'Title'                                        
                                     );
     
+    public static $default_sort = 'Title';
+
     /**
      * @var boolean Limit categories to a certain blog holder.
      * Set to FALSE for "global" categories.
