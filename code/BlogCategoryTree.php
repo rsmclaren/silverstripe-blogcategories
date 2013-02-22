@@ -3,11 +3,11 @@
  * An extension to the @see BlogHolder class
  * @author Ryan McLaren
  */
-class BlogCategoryHolder extends DataExtension{
+class BlogCategoryTree extends DataExtension{
     
     public static $has_many=array(
-                                'BlogCategories'=>'BlogCategory'                                                                        
-                            );
+        'BlogCategories'=>'BlogCategory', // only relates to BlogHolder, not BlogTree
+    );
     
     /**
      * updates the fields used in the CMS
@@ -15,15 +15,18 @@ class BlogCategoryHolder extends DataExtension{
      * @TODO remove the add/edit buttons from the authors gridfield
      */
     public function updateCMSFields(FieldList $fields){
-              
-        //categories tab
-        $fields->addFieldToTab('Root.Categories', GridField::create('BlogCategories', 'Blog Categories', $this->owner->BlogCategories(), GridFieldConfig_RecordEditor::create()));
-   
+        // categories tab
+        if(get_class($this->owner) != 'BlogTree') {
+            $fields->addFieldToTab(
+                'Root.Categories', 
+                GridField::create('BlogCategories', 'Blog Categories', $this->owner->BlogCategories(), GridFieldConfig_RecordEditor::create())
+            );    
+        }        
     }	
     
 }
 
-class BlogCategoryHolderExtension_Controller extends DataExtension {
+class BlogCategoryTreeExtension_Controller extends DataExtension {
     
     public static $allowed_actions=array(
         'category',
@@ -97,7 +100,13 @@ class BlogCategoryHolderExtension_Controller extends DataExtension {
    }
 
    public function getBlogCategoriesMoreLink() {
-    return $this->owner->Link('categoryindex');
+    if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+        $parent = $this->owner->Parent();
+    } else {
+        $parent = BlogTree::get()->filter('ClassName', 'BlogTree')->First();
+        if(!$parent) $parent = BlogHolder::get()->First();
+    }
+    return $parent->Link('categoryindex');
    }
 }
 

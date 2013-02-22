@@ -74,7 +74,13 @@ class BlogCategoryEntry extends DataExtension {
    }
 
    public function getBlogCategoriesMoreLink() {
-    return $this->owner->Parent()->Link('categoryindex');
+    if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+        $parent = $this->owner->Parent();
+    } else {
+        $parent = BlogTree::get()->filter('ClassName', 'BlogTree')->First();
+        if(!$parent) $parent = BlogHolder::get()->First();
+    }
+    return $parent->Link('categoryindex');
    }
     
 }

@@ -96,7 +96,13 @@ class BlogCategory extends DataObject {
      * @return string
      */
     public function getLink(){
-        return Controller::join_links(Director::get_current_page(), $this->Parent()->Link(), 'category', $this->URLSegment);
+        if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+            $parent = $this->Parent();
+        } else {
+            $parent = BlogTree::get()->filter('ClassName', 'BlogTree')->First();
+            if(!$parent) $parent = BlogHolder::get()->First();
+        }
+        return Controller::join_links($parent->Link(), 'category', $this->URLSegment);
     }
           
 }
