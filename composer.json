@@ -1,5 +1,5 @@
 {
-	"name": "IOTI/silverstripe-blogcategories",
+	"name": "ioti/silverstripe-blogcategories",
 	"description": "Adds a manageable list of categories to the SilverStripe blog module",
 	"type": "silverstripe-module",
 	"keywords": ["silverstripe", "blog", "categories"],
