@@ -1,0 +1,19 @@
+{
+	"name": "IOTI/silverstripe-blogcategories",
+	"description": "Adds a manageable list of categories to the SilverStripe blog module",
+	"type": "silverstripe-module",
+	"keywords": ["silverstripe", "blog", "categories"],
+	"authors": [
+		{
+			"name": "Ryan McLaren",
+			"homepage": "http://ryanmclaren.com"
+		}
+	],
+
+	"require":
+	{
+		"silverstripe/framework": "3.*",
+		"silverstripe/blog": "*",
+		"composer/installers": "*"
+	}
+}
