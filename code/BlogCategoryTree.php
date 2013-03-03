@@ -82,7 +82,10 @@ class BlogCategoryTreeExtension_Controller extends DataExtension {
     }
 
     public function categoryindex(SS_HTTPRequest $request) {
-        return $this->owner->renderWith(array('BlogHolder_categoryindex', 'Page'));
+        $limit = Config::inst()->get('BlogCategory', 'limit_all_tags');
+        return $this->owner->customise(array(
+            'BlogCategoryCloud' => $this->getBlogCategoryCloud($limit)
+        ))->renderWith(array('BlogHolder_categoryindex', 'Page'));
     }
 
     /**

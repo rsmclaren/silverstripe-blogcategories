@@ -37,6 +37,13 @@ class BlogCategory extends DataObject {
     public static $limit_to_holder = true;
 
     /**
+     * @var Int Limit amount of tags to show under the categoryindex endpoint.
+     * Shows most popular tags first. Making this unlimited (0) can be harmful
+     * to SEO since there's too many links on a single page.
+     */
+    public static $limit_all_tags = 60;
+
+    /**
      * fields used the in the CMS
      * @see DataObject::getCMSFields()
      * @return {FieldList}
