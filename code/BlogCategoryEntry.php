@@ -16,10 +16,7 @@ class BlogCategoryEntry extends DataExtension {
     public function updateCMSFields(FieldList $fields){
         
         Requirements::CSS('BlogCategories/css/cms-blog-categories.css');
-        
-        //main tab
-        $fields->addFieldToTab('Root.Main', new UploadField('AbstractImage', 'Abstract Image - 160x155px'));
-        
+                
         //creating a list of categories for the togglecompositefield
         if($this->owner->Parent->BlogCategories()->count() >= 1){
             $categoryList = "<ul>";
