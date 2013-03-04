@@ -1,0 +1,31 @@
+BlogHolder:
+	holder1:
+		Title: Holder1
+	holder2:
+		Title: Holder2
+BlogCategory:
+	one:
+		Title: one
+		Parent: =>BlogHolder.holder1
+	two:
+		Title: two
+		Parent: =>BlogHolder.holder1
+	three:
+		Title: three
+		Parent: =>BlogHolder.holder1
+	four-holder2:
+		Title: four-holder2
+		Parent: =>BlogHolder.holder2
+BlogEntry:
+	one:
+		Title: Entry One
+		BlogCategories: =>BlogCategory.one,=>BlogCategory.two
+		Parent: =>BlogHolder.holder1
+	two:
+		Title: Entry Two
+		BlogCategories: =>BlogCategory.two,=>BlogCategory.three
+		Parent: =>BlogHolder.holder1
+	one-holder2:
+		Title: Entry One on Holder 2
+		Parent: =>BlogHolder.holder2
+		BlogCategories: =>BlogCategory.four-holder2

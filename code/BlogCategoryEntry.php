@@ -45,13 +45,42 @@ class BlogCategoryEntry extends DataExtension {
                 )->setHeadingLevel(4)
         );
     } 
-   
+
    /**
     * returns a DataObjectSet of all the BlogCategories
     * @return {DataObjectSet}
     */
    public function getAllBlogCategories(){
-       return $this->owner->Parent()->BlogCategories();
+        if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+            return $this->owner->Parent()->BlogCategories();     
+        } else {
+            return BlogCategory::get(); 
+        }
+       
+   }
+
+   /**
+    * @param Int $limit
+    * @return BlogCategoryCloud
+    */
+   public function getBlogCategoryCloud($limit = 10) {
+     $cloud = BlogCategoryCloud::create();
+     if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+        $cloud->setHolderId($this->owner->ParentID);
+     }
+     if($limit) $cloud->setLimit($limit);
+     
+     return $cloud;
+   }
+
+   public function getBlogCategoriesMoreLink() {
+    if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+        $parent = $this->owner->Parent();
+    } else {
+        $parent = BlogTree::get()->filter('ClassName', 'BlogTree')->First();
+        if(!$parent) $parent = BlogHolder::get()->First();
+    }
+    return $parent->Link('categoryindex');
    }
     
 }

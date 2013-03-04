@@ -17,7 +17,7 @@ class BlogCategory extends DataObject {
                         );
     
     public static $has_one=array(
-                                    'Parent'=>'BlogHolder'
+                                    'Parent'=>'BlogHolder', // Only used with $limit_to_holder=TRUE
                                 );
     
     public static $belongs_many_many=array(
@@ -28,6 +28,21 @@ class BlogCategory extends DataObject {
                                         'Title'=>'Title'                                        
                                     );
     
+    public static $default_sort = 'Title';
+
+    /**
+     * @var boolean Limit categories to a certain blog holder.
+     * Set to FALSE for "global" categories.
+     */
+    public static $limit_to_holder = true;
+
+    /**
+     * @var Int Limit amount of tags to show under the categoryindex endpoint.
+     * Shows most popular tags first. Making this unlimited (0) can be harmful
+     * to SEO since there's too many links on a single page.
+     */
+    public static $limit_all_tags = 60;
+
     /**
      * fields used the in the CMS
      * @see DataObject::getCMSFields()
@@ -73,11 +88,14 @@ class BlogCategory extends DataObject {
     
     //Test whether the URLSegment exists already on another Product
     public function LookForExistingURLSegment($URLSegment){
-        if(DataList::create('BlogCategory')->where("URLSegment = '" . $URLSegment ."' AND ID != " . $this->ID)->count() >= 1){
-            return true;
-        } else {
-            return false;
+        $filters = array('URLSegment' => $URLSegment);
+        if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+            $filters['ParentID'] = $this->ParentID;
         }
+        $existing = BlogCategory::get()->filter($filters); 
+        if($this->ID) $existing = $existing->exclude("ID", $this->ID);
+
+        return $existing->count();
     }
     
     /**
@@ -85,7 +103,13 @@ class BlogCategory extends DataObject {
      * @return string
      */
     public function getLink(){
-        return Controller::join_links(Director::get_current_page(), $this->Parent()->Link(), 'category', $this->URLSegment);
+        if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+            $parent = $this->Parent();
+        } else {
+            $parent = BlogTree::get()->filter('ClassName', 'BlogTree')->First();
+            if(!$parent) $parent = BlogHolder::get()->First();
+        }
+        return Controller::join_links($parent->Link(), 'category', $this->URLSegment);
     }
           
 }
