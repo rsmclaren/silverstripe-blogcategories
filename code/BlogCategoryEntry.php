@@ -16,12 +16,13 @@ class BlogCategoryEntry extends DataExtension {
     public function updateCMSFields(FieldList $fields){
         
         Requirements::CSS('BlogCategories/css/cms-blog-categories.css');
-                
-        //creating a list of categories for the togglecompositefield
-        if($this->owner->Parent->BlogCategories()->count() >= 1){
+
+        // Try to fetch categories from cache                
+        $categories = $this->getAllBlogCategories();
+        if($categories->count() >= 1){
             $categoryList = "<ul>";
-            foreach ($this->owner->Parent->BlogCategories() as $category){
-                $categoryList .= "<li>" .$category->Title. "</li>";
+            foreach ($categories->column('Title') as $title) {
+                $categoryList .= "<li>" .Convert::raw2xml($title). "</li>";
             }
             $categoryList .="</ul>";
         }else {
