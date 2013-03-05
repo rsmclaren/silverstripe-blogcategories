@@ -15,11 +15,16 @@ class BlogCategoryTree extends DataExtension{
      * @TODO remove the add/edit buttons from the authors gridfield
      */
     public function updateCMSFields(FieldList $fields){
-        // categories tab
-        if(get_class($this->owner) != 'BlogTree') {
+        // Categories tab: Show either on BlogTree or BlogHoder depending on limit settings
+        $limit = Config::inst()->get('BlogCategory', 'limit_to_holder');
+        if(
+            ($limit && $this->owner instanceof BlogHolder)
+            || (!$limit && !($this->owner instanceof BlogHolder)) // applies to BlogTree
+        ) {
+            $categories = ($limit) ? $this->owner->BlogCategories() : BlogCategory::get();
             $fields->addFieldToTab(
                 'Root.Categories', 
-                GridField::create('BlogCategories', 'Blog Categories', $this->owner->BlogCategories(), GridFieldConfig_RecordEditor::create())
+                GridField::create('BlogCategories', 'Blog Categories', $categories, GridFieldConfig_RecordEditor::create())
             );    
         }        
     }	
