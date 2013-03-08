@@ -11,6 +11,12 @@ Requires SilverStripe v3.0.2+
 
 ## Usage
 
+By default adding new blog categories is limited to the BlogTree class. You can modify
+this functionality in your _config.php to limit it to the BlogHolder class instead
+using the following code.
+
+    Config::inst()->update('BlogCategory', 'limit_to_holder', true);
+
 ### Tagcloud
 
 With the `BlogCategoryCloud` class, you can make weighted "tag clouds"
