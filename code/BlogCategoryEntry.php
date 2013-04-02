@@ -31,7 +31,6 @@ class BlogCategoryEntry extends DataExtension {
 
         //categories tab
         $gridFieldConfig = GridFieldConfig_RelationEditor::create();
-        $gridFieldConfig->removeComponentsByType('GridFieldAddNewButton');
         $fields->addFieldToTab('Root.Categories', GridField::create('BlogCategories', 'Blog Categories', $this->owner->BlogCategories(), $gridFieldConfig));
         $fields->addFieldToTab('Root.Categories',
                 ToggleCompositeField::create(
@@ -42,6 +41,15 @@ class BlogCategoryEntry extends DataExtension {
                         )
                 )->setHeadingLevel(4)
         );
+
+        // Optionally default category to current holder
+        if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+            $holder = $this->owner->Parent();
+            $gridFieldConfig->getComponentByType('GridFieldDetailForm')
+                ->setItemEditFormCallback(function($form, $component) use($holder) {
+                    $form->Fields()->push(HiddenField::create('ParentID', false, $holder->ID));
+                });
+        }
     } 
 
    /**
