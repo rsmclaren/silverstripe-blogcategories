@@ -20,12 +20,17 @@ class BlogCategoryEntry extends DataExtension {
         // Try to fetch categories from cache                
         $categories = $this->getAllBlogCategories();
         if($categories->count() >= 1){
-            $categoryList = "<ul>";
-            foreach ($categories->column('Title') as $title) {
-                $categoryList .= "<li>" .Convert::raw2xml($title). "</li>";
+            $cacheKey = md5($categories->sort('LastEdited', 'DESC')->First()->LastEdited);
+            $cache = SS_Cache::factory('BlogCategoriesList');
+            if(!($categoryList = $cache->load($cacheKey))) {
+                $categoryList = "<ul>";
+                foreach ($categories->column('Title') as $title) {
+                    $categoryList .= "<li>" .Convert::raw2xml($title). "</li>";
+                }
+                $categoryList .="</ul>";
+                $cache->save($categoryList, $cacheKey);
             }
-            $categoryList .="</ul>";
-        }else {
+        } else {
             $categoryList="<ul><li>No categories have been added. Add categories from the parent blog holder.</li></ul>";            
         }
 
