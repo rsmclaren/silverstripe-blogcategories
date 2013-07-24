@@ -88,6 +88,16 @@ class BlogCategory extends DataObject {
     public function getLink(){
         return Controller::join_links(Director::get_current_page(), $this->Parent()->Link(), 'category', $this->URLSegment);
     }
+
+
+    public function canCreate($member = null) { return true; }
+
+    public function canView($member = null) { return true; }
+
+    public function canEdit($member = null) { return true; }
+
+    public function canDelete($member = null) { return true; }
+
           
 }
 ?>
