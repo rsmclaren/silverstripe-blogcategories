@@ -12,14 +12,14 @@ Requires SilverStripe v3.0.2+
 ## Usage
 
 By default adding new blog categories is limited to the BlogHolder class. You can modify
-this functionality in your config.yaml or _config.php to limit it to the BlogTree class instead
+this functionality in your config.yml or _config.php to limit it to the BlogTree class instead
 using the following code.
 
 In _config.php
 
     Config::inst()->update('BlogCategory', 'limit_to_holder', true);
 	
-in config.yaml
+in config.yml
 
     BlogCategory:
 	  limit_to_holder:  false
