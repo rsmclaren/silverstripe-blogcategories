@@ -1,6 +1,6 @@
 <?php
 /**
- * An extension to the @see BlogHolder class
+ * An extension to the @see BlogTree class
  * @author Ryan McLaren
  */
 class BlogCategoryTree extends DataExtension{

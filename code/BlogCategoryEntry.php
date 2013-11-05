@@ -15,7 +15,7 @@ class BlogCategoryEntry extends DataExtension {
      */
     public function updateCMSFields(FieldList $fields){
         
-        Requirements::CSS('BlogCategories/css/cms-blog-categories.css');
+        Requirements::CSS('blogcategories/css/cms-blog-categories.css');
 
         // Try to fetch categories from cache                
         $categories = $this->getAllBlogCategories();
@@ -31,7 +31,7 @@ class BlogCategoryEntry extends DataExtension {
                 $cache->save($categoryList, $cacheKey);
             }
         } else {
-            $categoryList="<ul><li>No categories have been added. Add categories from the parent blog holder.</li></ul>";            
+            $categoryList="<ul><li>No categories exist. Categories can be added from the BlogTree or the BlogHolder page.</li></ul>";            
         }
 
         //categories tab
