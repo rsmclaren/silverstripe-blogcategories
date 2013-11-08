@@ -17,7 +17,7 @@ using the following code.
 
 In _config.php
 
-    Config::inst()->update('BlogCategory', 'limit_to_holder', true);
+    Config::inst()->update('BlogCategory', 'limit_to_holder', false);
 	
 in config.yml
 
