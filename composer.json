@@ -15,5 +15,8 @@
 		"silverstripe/framework": "3.*",
 		"silverstripe/blog": "*",
 		"composer/installers": "*"
-	}
+	},
+	"extra": {
+        "installer-name": "blogcategories"
+    }
 }
