@@ -5,8 +5,8 @@
  */
 class BlogCategoryTree extends DataExtension{
     
-    public static $has_many=array(
-        'BlogCategories'=>'BlogCategory', // only relates to BlogHolder, not BlogTree
+    private static $has_many = array(
+        'BlogCategories' => 'BlogCategory', // only relates to BlogHolder, not BlogTree
     );
     
     /**
@@ -33,7 +33,7 @@ class BlogCategoryTree extends DataExtension{
 
 class BlogCategoryTreeExtension_Controller extends DataExtension {
     
-    public static $allowed_actions=array(
+    private static $allowed_actions = array(
         'category',
         'categoryindex',
     );
@@ -117,5 +117,3 @@ class BlogCategoryTreeExtension_Controller extends DataExtension {
     return $parent->Link('categoryindex');
    }
 }
-
-?>

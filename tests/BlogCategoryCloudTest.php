@@ -1,7 +1,7 @@
 <?php
 class BlogCategoryCloudTest extends SapphireTest {
 	
-	static $fixture_file = 'Fixture.yml';
+	static $fixture_file = 'BlogCategoryCloudTest.yml';
 
 	function testCategories() {
 		$cat1 = $this->objFromFixture('BlogCategory', 'one');

@@ -11,22 +11,22 @@
  */
 class BlogCategory extends DataObject {
     
-    public static $db=array(
-                            'URLSegment' => 'Varchar(255)',
-                            'Title'=>'Varchar(250)'                          
-                        );
+    private static $db = array(
+        'URLSegment' => 'Varchar(255)',
+        'Title' => 'Varchar(250)'                          
+    );
     
-    public static $has_one=array(
-                                    'Parent'=>'BlogHolder'
-                                );
+    private static $has_one = array(
+        'Parent' => 'BlogHolder'
+    );
     
-    public static $belongs_many_many=array(
-                                            'BlogEntry'=>'BlogEntry'
-                                        );
+    private static $belongs_many_many = array(
+        'BlogEntry' => 'BlogEntry'
+    );
     
-    public static $summary_fields=array(
-                                        'Title'=>'Title'                                        
-                                    );
+    private static $summary_fields = array(
+        'Title' => 'Title'                                        
+    );
     
     /**
      * fields used the in the CMS
@@ -40,7 +40,7 @@ class BlogCategory extends DataObject {
     }
     
     //Set URLSegment to be unique on write
-    function onBeforeWrite(){
+    public function onBeforeWrite(){
         // If there is no URLSegment set, generate one from Title
         if((!$this->URLSegment || $this->URLSegment == 'new-product') && $this->Title != 'New Product')
         {
@@ -100,4 +100,3 @@ class BlogCategory extends DataObject {
 
           
 }
-?>

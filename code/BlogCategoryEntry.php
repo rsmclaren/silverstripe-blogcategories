@@ -5,9 +5,9 @@
  */
 class BlogCategoryEntry extends DataExtension {
     
-    public static $many_many=array(
-                                    'BlogCategories'=>'BlogCategory'
-                                );
+    private static $many_many = array(
+        'BlogCategories' => 'BlogCategory'
+    );
     
     /**
      * Updates the fields used in the CMS
@@ -95,5 +95,3 @@ class BlogCategoryEntry extends DataExtension {
    }
     
 }
-
-?>
