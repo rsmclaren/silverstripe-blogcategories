@@ -62,7 +62,7 @@ class BlogCategoryEntry extends DataExtension {
     * @return {DataObjectSet}
     */
    public function getAllBlogCategories(){
-        if(Config::inst()->get('BlogCategory', 'limit_to_holder')) {
+        if(Config::inst()->get('BlogCategory', 'limit_to_holder') && $this->owner->Parent()->ClassName == 'BlogHolder') {
             return $this->owner->Parent()->BlogCategories();     
         } else {
             return BlogCategory::get(); 
