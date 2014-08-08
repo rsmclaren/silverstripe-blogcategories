@@ -1,8 +1,8 @@
-div#Form_EditForm_ExistingCategories ul {
+div#ui-accordion-Form_EditForm_ExistingCategories-panel-0 ul {
 	overflow: auto;
 }
 
-div#Form_EditForm_ExistingCategories ul li {
+div#ui-accordion-Form_EditForm_ExistingCategories-panel-0 ul li {
 	float: left;
 	margin: 10px;
 }
